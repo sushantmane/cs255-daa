@@ -1,5 +1,7 @@
-package edu.sjsu.cs255.daa.graphs;
+package edu.sjsu.cs255.daa.graphs.simple;
 
+import edu.sjsu.cs255.daa.graphs.simple.Graph;
+import edu.sjsu.cs255.daa.graphs.simple.ShortestPathInUnweightedGraph;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
