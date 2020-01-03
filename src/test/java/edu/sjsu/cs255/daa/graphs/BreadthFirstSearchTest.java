@@ -21,5 +21,6 @@ class BreadthFirstSearchTest {
         BreadthFirstSearch.BfsResult result = test.bfs(0);
         System.out.println(result.getRoute());
         System.out.println(result);
+        System.out.println(test.findPath(10, 12));
     }
 }

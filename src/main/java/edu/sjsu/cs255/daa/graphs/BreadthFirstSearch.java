@@ -2,6 +2,7 @@ package edu.sjsu.cs255.daa.graphs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -23,11 +24,14 @@ public class BreadthFirstSearch {
 
     }
 
+    private int nEdges;
     public void processEdge(int u, int v) {
         System.out.println("edgeFound: (" + u + ", " + v + ")");
+        nEdges++;
     }
 
     public BfsResult bfs(int src) {
+        nEdges = 0;
         boolean[] discovered = new boolean[graph.numVertices()];
         boolean[] processed = new boolean[graph.numVertices()];
         int[] parent = new int[graph.numVertices()];
@@ -50,24 +54,43 @@ public class BreadthFirstSearch {
                 if (!discovered[v]) {
                     queue.add(v);
                     parent[v] = u;
-                    distance[v] = distance[u] + 1;
+                    distance[v] = distance[u] + 1; // update distance of v from src
                     discovered[v] = true; // mark v as discovered
                 }
             }
             processVertexLate(u);
         }
-        return new BfsResult(route, parent, distance);
+        return new BfsResult(route, parent, distance, nEdges);
+    }
+
+    public List<Integer> findPath(int start, int end) {
+        BfsResult result = bfs(start);
+        int[] parent = result.getParent();
+        List<Integer> path = new LinkedList<>();
+        while (start != end) {
+            if (parent[end] == -1) {
+                path.clear();
+                return path;
+            }
+            path.add(end);
+            end = parent[end];
+        }
+        path.add(start);
+        Collections.reverse(path);
+        return path;
     }
 
     public static class BfsResult {
         private List<Integer> route;
         private int[] parent;
         private int[] distance;
+        private int nEdges;
 
-        public BfsResult(List<Integer> route, int[] parent, int[] distance) {
+        public BfsResult(List<Integer> route, int[] parent, int[] distance, int nEdges) {
             this.route = route;
             this.parent = parent;
             this.distance = distance;
+            this.nEdges = nEdges;
         }
 
         public int[] getParent() {
@@ -90,6 +113,7 @@ public class BreadthFirstSearch {
             for (int i = 0; i < parent.length; i++) {
                 res.append(i).append("\t").append(parent[i]).append("\t").append(distance[i]).append("\n");
             }
+            res.append("edgesProcessed: ").append(nEdges);
             return res.toString();
         }
     }
