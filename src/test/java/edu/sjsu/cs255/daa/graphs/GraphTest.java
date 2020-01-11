@@ -54,11 +54,10 @@ class GraphTest {
 
     @Test
     public void createGraph_Test5() {
-        boolean directed = true;
         int v5 = 8;
         int[][] edges5 = {{0, 1}, {0, 3}, {1, 2}, {1, 3}, {2, 4}, {3, 4}, {4, 1}, {5, 0}, {5, 3},
                 {6, 7}, {6, 5}, {7, 5}, {7, 6}};
-        Graph graph = Graph.createGraph(v5, edges5, directed);
+        Graph graph = Graph.createGraph(v5, edges5, true);
         System.out.println(graph);
     }
 }

@@ -23,6 +23,14 @@ public class DepthFirstSearch {
 
     private int numEdges = 0;
 
+    public void processEdge(int u, int v, EdgeType type) {
+        System.out.println("edgeFound: (" + u + ", " + v + ", " + type + ")");
+        if (type == EdgeType.TREE) {
+
+        }
+        numEdges++;
+    }
+
     public void processEdge(int u, int v) {
         System.out.println("edgeFound: (" + u + ", " + v + ")");
         numEdges++;
@@ -104,12 +112,11 @@ public class DepthFirstSearch {
         for (Graph.Edge edge : graph.getEdges(u)) {
             int v = edge.getV();
             if (!explored[v]) {
-                processEdge(u, v);
+                processEdge(u, v, EdgeType.TREE);
                 parent[v] = u;
                 dfsRecursive(v);
-            }
-            if (!processed[v] || graph.isDirected()) {
-                processEdge(u, v);
+            } else if (processed[v] || graph.isDirected()) {
+                processEdge(u, v, EdgeType.BACK);
             }
         }
         processVertexLate(u);
@@ -117,6 +124,8 @@ public class DepthFirstSearch {
         exitTime[u] = time;
         processed[u] = true;
     }
+
+    enum EdgeType { TREE, BACK }
 
     public static class DfsResult {
         private List<Integer> route;
